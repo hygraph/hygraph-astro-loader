@@ -1,0 +1,33 @@
+{
+  "name": "@hygraph/hygraph-astro-loader",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "A package for loading Hygraph content into Astro's Content Collection API",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --clean",
+    "dev": "tsup src/index.ts --format esm --dts --watch",
+    "prepublishOnly": "node --run build",
+    "check": "publint && attw $(pnpm pack) --ignore-rules=cjs-resolves-to-esm",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "astro": "^4.15.3",
+    "gql-query-builder": "^3.8.0",
+    "graphql-request": "^7.1.0",
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4"
+  },
+  "keywords": [
+    "astro",
+    "astro-loader"
+  ],
+  "author": "",
+  "license": "ISC"
+}
