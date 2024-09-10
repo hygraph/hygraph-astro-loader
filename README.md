@@ -41,9 +41,29 @@ const pages = defineCollection({
         }),
     })})
 
-    export const collections = { posts };
+    export const collections = { pages };
 ```
 
+The pages collection will now be available in your Astro project. It can be accessed both as data in frontmatter, but also to create pages or respond to params.
+
+```astro
+---
+import { getCollection } from 'astro:content';
+export async function getStaticPaths() {
+    const pages = await getCollection('pages');
+    return pages.map(page => ({
+        params: { slug: page.slug },
+        props: { page },
+    }));
+}
+const { page } = Astro.props;---
+---
+
+<h1>{page.title}</h1>
+<div>{page.body.text}</div>
+```
+
+## Options
 
 | Property | Description | Required |
 | --- | --- | ---|
