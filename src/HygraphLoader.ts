@@ -18,7 +18,7 @@ export interface HygraphLoaderOptions {
 
 async function fetchAllData(
   client,
-  { endpoint, token, fields, operation, variables }
+  { fields, operation, variables }
 ) {
   let data = [];
   let hasNextPage = true;
@@ -63,6 +63,18 @@ export function HygraphLoader({
 }: HygraphLoaderOptions): Loader {
   const client = new GraphQLClient(endpoint);
 
+  if (!endpoint) {
+    throw new Error("HygraphLoader requires an endpoint");
+  }
+
+  if (!fields) {
+    throw new Error("HygraphLoader requires fields to be defined");
+  }
+  if (!operation) {
+    throw new Error("HygraphLoader requires an operation to be defined");
+  }
+
+
   if (token) {
     client.setHeader("Authorization", `Bearer ${token}`);
   }
@@ -103,8 +115,6 @@ export function HygraphLoader({
       store.clear();
 
       const data = await fetchAllData(client, {
-        endpoint,
-        token,
         fields: connectionFields,
         operation: connectionOperation,
         variables: connectionVariables,
