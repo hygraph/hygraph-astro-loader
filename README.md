@@ -74,3 +74,9 @@ const { page } = Astro.props;---
 
 Validating the schema is optional, but recommended. The schema is used to validate the data returned from the API. Use Zod to define the schema of what you expect from the API.
 
+## Want to test but don't have a Hygraph project?
+
+Use one of these starters to get started with Hygraph and Astro:
+
+- [Hygraph Commerce Astro Starter](https://hygraph.com/marketplace/starters/skncre-starter-astro)
+- [Hygraph Microblog Astro Starter](https://hygraph.com/marketplace/starters/astro-microblog)
