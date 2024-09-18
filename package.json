@@ -13,7 +13,7 @@
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts --clean",
     "dev": "tsup src/index.ts --format esm --dts --watch",
-    "prepublishOnly": "node --run build",
+    "prepublishOnly": "npm run build",
     "check": "publint && attw $(pnpm pack) --ignore-rules=cjs-resolves-to-esm",
     "test": "vitest"
   },
