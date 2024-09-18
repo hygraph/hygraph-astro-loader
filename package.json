@@ -1,6 +1,6 @@
 {
   "name": "@hygraph/hygraph-astro-loader",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "type": "module",
   "description": "A package for loading Hygraph content into Astro's Content Collection API",
   "main": "dist/index.js",
