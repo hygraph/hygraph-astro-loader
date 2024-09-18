@@ -1,26 +1,25 @@
 # Hygraph Astro Content Loader
 
-_Alpha build of this project. Please report any issues._
+_Beta build of this project. Please report any issues._
 
-A package to add a Hygraph loader to your Astro project. For more information on Astro Content Loaders, see the [4.14 Release notes](https://astro.build/blog/astro-4140/).
+A package to add a Hygraph loader to your Astro project. For more information on Astro Content Loaders, see the [Astro's deep dive on Content Loaders](https://astro.build/blog/content-layer-deep-dive/).
 
 ## Installation
-(not yet on NPM)
 ```bash
 npm install @hygraph/astro-content-loader
 ```
 
 ## Usage
 
-Add the following to your `astro.config.mjs`:
+Before using the loader, you need to set up or collect the follwing from your Hygraph project:
 
-```js
-experimental: {
-    contentLayer: true
-}
-```
+- API Endpoint (configured through your project settings)
+  - For testing, we recommend initializing your Public Content API and using the endpoint provided.
+- If you don't have a Public Content API, but instead have a regular endpoint, you'll need to create a Permanent Access Token for the API and use that in your loader's optional `token` property.
 
-Then, in your `/content` directory, add a `config.ts` file with the following content:
+Once that's done, you're ready to set things up in Astro.
+
+In your `/content` directory, add a `config.ts` file if it doesn't already exist with the following content:
 
 ```ts
 import { HygraphLoader } from '@hygraph/astro-content-loader';
