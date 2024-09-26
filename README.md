@@ -71,8 +71,56 @@ const { page } = Astro.props;---
 | `fields` | Array fields to fetch from the API. | _required_ |
 | `token` | Optional token to pass to the API. | _optional_ |
 | `variables` | Optional variables to pass to the GraphQL API | _optional_ |
+| `richText` | Optional identifier for your Rich Text field to render HTML. Requires the `html` string from your Rich Text data. | _optional_ |
 
 Validating the schema is optional, but recommended. The schema is used to validate the data returned from the API. Use Zod to define the schema of what you expect from the API.
+
+## Rendering Rich Text
+
+If you're using a Rich Text field in your Hygraph project, you can use the `richText` property to render the HTML in your Astro project. 
+
+```ts
+const pages = defineCollection({
+    loader: HygraphLoader({
+        endpoint: 'MY_API_ENDPOINT',
+        operation: 'pages',
+        fields: ["id", "title", "slug", { "body": ["html"] }],
+        richText: 'body',
+    }),
+    schema: z.object({
+        id: z.string(),
+        title: z.string({ required_error: 'Title is required' }).min(1, { message: 'Title is required to be at least 1 character' } ),
+        slug: z.string(),
+        body: z.object({
+            html: z.string(),
+        }),
+    })})
+```
+
+This will send the HTML to Astro's `<Content />` component to render the HTML.
+
+```astro
+---
+import { getEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+export async function getStaticPaths() {
+	const posts = await getCollection('pages');
+	return posts.map((post) => ({
+		params: { slug: post.data.slug },
+		props: post,
+	}));
+}
+
+const post = await getEntry('pages', Astro.props.id)
+const { Content } = await render(post);
+---
+
+<Layout title="">
+    <h1>{post.data.title}</h1>
+    <Content />
+</Layout>
+```
 
 ## Want to test but don't have a Hygraph project?
 
