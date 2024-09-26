@@ -1,7 +1,9 @@
 import { GraphQLClient } from "graphql-request";
 import * as gql from "gql-query-builder";
-import type { Loader, LoaderContext } from "astro/loaders";
 
+
+
+// define the HygraphLoaderOptions interface
 
 export interface HygraphLoaderOptions {
   /** Hygraph Content API Endpoint */
@@ -14,6 +16,8 @@ export interface HygraphLoaderOptions {
   operation: string | IOperation;
   /** The GraphQL variables to pass to the API */
   variables?: Array<object>;
+  /** The rich text field to render */
+  richText?: string;
 }
 
 async function fetchAllData(
@@ -60,7 +64,8 @@ export function HygraphLoader({
   fields,
   operation,
   variables,
-}: HygraphLoaderOptions): Loader {
+  richText
+}: HygraphLoaderOptions) {
   const client = new GraphQLClient(endpoint);
 
   if (!endpoint) {
@@ -99,15 +104,6 @@ export function HygraphLoader({
     },
   ];
 
-  const query = gql.query({
-    operation: `${operation}Connection`,
-    fields: connectionFields,
-    variables: {
-      ...variables,
-      first: 100,
-    },
-  });
-
   return {
     name: "Hygraph Loader",
     load: async ({ logger, store, parseData }) => {
@@ -121,9 +117,14 @@ export function HygraphLoader({
       });
 
       for (const item of data) {
+        let rendered = '';
         const itemData = item.node;
         const parsedData = await parseData({ id: itemData.id, data: itemData });
-        store.set({ id: parsedData.id, data: parsedData });
+        if (richText && !parsedData[richText].html) throw new Error(`HTML for Rich text field ${richText} not found in data`);
+        if (richText && parsedData[richText].html) {
+          rendered = parsedData[richText];
+        }
+        store.set({ id: parsedData.id, data: parsedData, rendered });
       }
 
       logger.info(

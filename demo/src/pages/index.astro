@@ -3,8 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
 import { getCollection } from 'astro:content';
 
-const posts = await getCollection('posts')
-
+const pages = await getCollection('pages')
 ---
 
 <Layout title="Welcome to Astro.">
@@ -38,7 +37,11 @@ const posts = await getCollection('posts')
 			</defs>
 		</svg>
 		<h1>Welcome to <span class="text-gradient">Astro</span></h1>
-		{posts.map((post) => <p>{post.data.title}</p>)}
+		
+		{pages.map((page) => <p><a href={`/testers/${page.data.slug}`}>{page.data.title}</a></p>)}
+		{pages.map((page) => {
+			console.log(page)
+		})}
 		<p class="instructions">
 			To get started, open the directory <code>src/pages</code> in your project.<br />
 			<strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.

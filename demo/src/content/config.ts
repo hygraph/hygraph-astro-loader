@@ -1,13 +1,12 @@
 import { defineCollection, z } from 'astro:content';
 import { HygraphLoader } from '../../../dist/index.js';
 
-
-
 const pages = defineCollection({
     loader: HygraphLoader({
         endpoint: 'https://us-east-1-shared-usea1-02.cdn.hygraph.com/content/cm03uw79i05w906w9h5gj195p/master',
         operation: 'pages',
-        fields: ["id", "title", "slug", { "body": ["text"] }],
+        fields: ["id", "title", "slug", { "body": ["text", "html"] }],
+        richText: 'body'
     }),
     schema: z.object({
         id: z.string(),
@@ -15,8 +14,10 @@ const pages = defineCollection({
         slug: z.string(),
         body: z.object({
             text: z.string(),
+            html: z.string()
         }),
-    })})
+    })
+})
 
 
 
