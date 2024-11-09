@@ -6,7 +6,7 @@ A package to add a Hygraph loader to your Astro project. For more information on
 
 ## Installation
 ```bash
-npm install @hygraph/astro-content-loader
+npm install @hygraph/hygraph-astro-loader
 ```
 
 ## Usage
