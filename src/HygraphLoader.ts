@@ -15,7 +15,7 @@ export interface HygraphLoaderOptions {
   /** The operation to fetch from the API */
   operation: string | IOperation;
   /** The GraphQL variables to pass to the API */
-  variables?: Array<object>;
+  variables?: Record<string, Extract<VariableOptions, { value: any }>>;
   /** The rich text field to render */
   richText?: string;
 }
